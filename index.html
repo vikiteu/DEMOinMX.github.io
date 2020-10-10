@@ -83,7 +83,7 @@
     <a href="/2020/10/08/hello-world/" class="article-date">
   <time datetime="2020-10-08T02:29:39.723Z" itemprop="datePublished" id="time">2020-10-09</time>
   <script>
-    setInterval(function(){
+    function tm(){
          var time=new Date();
          var year=time.getFullYear(); 
          var month=time.getMonth()+1; 
@@ -97,7 +97,8 @@
          }
          var box=document.getElementById("time");
          box.innerHTML=year+"年"+month+"月"+day+"日 "+hour+":"+minite+":"+second;       
-        },1000); 
+        }
+    setInterval(tm,1000); 
   </script>
 </a>
     
