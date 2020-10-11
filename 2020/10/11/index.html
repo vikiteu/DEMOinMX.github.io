@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="第二篇博文本文主要写的是关于寻找1000以内质数的算法优化（来源于明解C语言第5章）  2，3肯定是质数毋庸置疑 然后5 7 11 13…但是好像并没有规律…  但是 其实慢慢可以发现 I 比如说 每个数都不能被比它本身大的数整除，而质数同时不能被比它小的数整除II 2的倍数除2以外都不是质数也就是说从第二项起就只需要考虑奇数了III 也可以发现 如果一个数不能被3整除 那它肯定不能被18 12整">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2020/10/11/second%20md/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="第二篇博文本文主要写的是关于寻找1000以内质数的算法优化（来源于明解C语言第5章）  2，3肯定是质数毋庸置疑 然后5 7 11 13…但是好像并没有规律…  但是 其实慢慢可以发现 I 比如说 每个数都不能被比它本身大的数整除，而质数同时不能被比它小的数整除II 2的倍数除2以外都不是质数也就是说从第二项起就只需要考虑奇数了III 也可以发现 如果一个数不能被3整除 那它肯定不能被18 12整">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-10-11T13:45:42.184Z">
+<meta property="article:modified_time" content="2020-10-11T14:08:11.904Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-second md" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/11/second%20md/" class="article-date">
+  <time datetime="2020-10-11T13:45:42.184Z" itemprop="datePublished">2020-10-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="第二篇博文"><a href="#第二篇博文" class="headerlink" title="第二篇博文"></a>第二篇博文</h1><p><em>本文主要写的是关于寻找1000以内质数的算法优化（来源于明解C语言第5章）</em></p>
+<blockquote>
+<p>2，3肯定是质数毋庸置疑 然后5 7 11 13…<br>但是好像并没有规律…</p>
+</blockquote>
+<h2 id="但是-其实慢慢可以发现"><a href="#但是-其实慢慢可以发现" class="headerlink" title="但是 其实慢慢可以发现"></a>但是 其实慢慢可以发现</h2><blockquote>
+<p>I 比如说 每个数都不能被比它本身大的数整除，而质数同时不能被比它小的数整除<br>II 2的倍数除2以外都不是质数也就是说从第二项起就只需要考虑奇数了<br>III 也可以发现 如果一个数不能被3整除 那它肯定不能被18 12整除<br>IV　还有一个不易发现的是 一个数分解成两个数相乘 往往具有对称性 比如 16=2<em>8=4</em>4=*2而中间的一组往往小于等于其平方根　此条是　I的精进版</p>
+</blockquote>
+<h5 id="这些发现能使本来大几万次的运算减少到小几千次-，来看看具体代码实现吧"><a href="#这些发现能使本来大几万次的运算减少到小几千次-，来看看具体代码实现吧" class="headerlink" title="这些发现能使本来大几万次的运算减少到小几千次 ，来看看具体代码实现吧"></a>这些发现能使本来大几万次的运算减少到小几千次 ，来看看具体代码实现吧</h5><pre><code class="C">int i,no;
+int prime[500];（存放当前质数）
+int ptr=0;（记录当前质数个数）
+unsigned long counter = 0;（记录运算次数）
+prime[ptr++]=2;
+prime[ptr++]=3;
+for (no = 5; no &lt;=1000; no+=2（这里展现出II）)
+&#123;
+    int flag=0;
+    for ( i = 1; counter++,prime[i]*prime[i]&lt;=no　（这里展现出IV）; i++)
+    &#123;
+        counter++;
+        if (no%prime[i] == 0（如果no能被任何一个（小于它的）质数整除，则它不是质数）)
+        &#123;
+            flag=1;break;
+        &#125;
+
+    &#125;
+    if (!flag)（flag作为中间变量 由内循环向外循环传递信息 no是否为质数）
+    &#123;
+        prime[ptr++]=no;
+    &#125;
+
+
+&#125;
+printf(&quot;%lu\n&quot;,counter);</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/10/11/second%20md/" data-id="ckg56pri800009cejgn2ehz9y" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/10/09/m/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/10/11/second%20md/">second md</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/09/m/">first md</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/08/hello-world/">VIKITEU</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
