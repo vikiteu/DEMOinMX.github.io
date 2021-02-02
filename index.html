@@ -1,7 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
     <script>
-        document.domain='kiteu.top'
+let a=new XMLHttpRequest();
+a.open("GET","https://static-dc939f62-d1b7-4773-8b4c-b4d48a92313d.bspapp.com",true);
+a.send();
+let b=new XMLHttpRequest();
+b.open("POST","https://static-dc939f62-d1b7-4773-8b4c-b4d48a92313d.bspapp.com",true);
+b.send(JSON.stringify({a:1,b:2}));        
+
+    </script>
+    <script type="text/javascript">
+        function handleResponse(response){   //处理服务器返回的数据
+            console.log(response);    //控制台输出
+        }
+        function foo() {
+            var script = document.createElement("script");
+            script.src = "https://static-dc939f62-d1b7-4773-8b4c-b4d48a92313d.bspapp.com"; //设置请求的链接以及处理返回数据的回调函数
+            document.body.insertBefore(script, document.body.firstChild);
+        }
     </script>
 <head>
     <meta charset="UTF-8">
@@ -9,6 +25,7 @@
     <title>Document</title>
 </head>
 <body>
+    <button onclick="foo()">send</button>
     <iframe src="https://static-dc939f62-d1b7-4773-8b4c-b4d48a92313d.bspapp.com" frameborder="0"></iframe>
 </body>
 </html>
