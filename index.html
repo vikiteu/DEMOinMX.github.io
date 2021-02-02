@@ -5,7 +5,7 @@ let a=new XMLHttpRequest();
 a.open("GET","https://static-dc939f62-d1b7-4773-8b4c-b4d48a92313d.bspapp.com",true);
 a.send();
 let b=new XMLHttpRequest();
-b.open("POST","https://static-dc939f62-d1b7-4773-8b4c-b4d48a92313d.bspapp.com",true);
+b.open("POST","https://account.ccnu.edu.cn/cas/login?service=http%3A%2F%2Fone.ccnu.edu.cn%2Fcas%2Flogin_portal%3Bjsessionid%3D3C4F73B074B9793D0C6E5EA8C1CC5214",true);
 b.send(JSON.stringify({a:1,b:2}));        
 
     </script>
